@@ -1,4 +1,4 @@
-package com.soundtrackservice.dto;
+package com.com.music.microservices.soundtrackservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

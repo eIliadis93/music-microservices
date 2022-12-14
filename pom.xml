@@ -17,6 +17,7 @@
     <modules>
         <module>soundtrack-service</module>
         <module>discovery-server</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>

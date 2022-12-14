@@ -1,4 +1,4 @@
-package com.soundtrackservice.model;
+package com.com.music.microservices.soundtrackservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

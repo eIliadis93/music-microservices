@@ -1,15 +1,10 @@
-package com.soundtrackservice.service;
+package com.com.music.microservices.soundtrackservice.service;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.soundtrackservice.dto.SoundtrackDto;
-import com.soundtrackservice.model.Soundtrack;
-import com.soundtrackservice.repository.SoundtrackRepository;
+import com.com.music.microservices.soundtrackservice.dto.SoundtrackDto;
+import com.com.music.microservices.soundtrackservice.model.Soundtrack;
+import com.com.music.microservices.soundtrackservice.repository.SoundtrackRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
