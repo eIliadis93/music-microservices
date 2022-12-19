@@ -4,6 +4,7 @@ import com.com.music.microservices.soundtrackservice.dto.SoundtrackDto;
 import com.com.music.microservices.soundtrackservice.model.Soundtrack;
 import com.com.music.microservices.soundtrackservice.service.SoundtrackService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/soundtrack")
@@ -21,7 +23,8 @@ public class SoundtrackController {
 
 
     @PostMapping(consumes = {"multipart/form-data"})
-    @CircuitBreaker(name = "upload", fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "soundtrack", fallbackMethod = "fallbackMethodUpload")
+    @Retry(name = "soundtrack")
     public ResponseEntity<?> upload(@RequestPart("soundtrackDto") SoundtrackDto soundtrackDto, @RequestPart("file") MultipartFile multipartFile) throws IOException {
         String uploadSong = soundtrackService.uploadSoundtrack(multipartFile, soundtrackDto);
         return ResponseEntity.status(HttpStatus.OK)
@@ -29,7 +32,8 @@ public class SoundtrackController {
     }
 
     @GetMapping(value = "/download/{fileName}" , produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @CircuitBreaker(name = "download", fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "soundtrack", fallbackMethod = "fallbackMethodDownload")
+    @Retry(name = "soundtrack")
     public HttpEntity<byte[]> download(@PathVariable String fileName) throws IOException {
         byte[] content = soundtrackService.downloadSoundtrack(fileName);
         HttpHeaders header = new HttpHeaders();
@@ -50,7 +54,11 @@ public class SoundtrackController {
         return ResponseEntity.ok().body(soundtrackService.findSongByName(name));
     }
 
-    public String fallbackMethod(SoundtrackDto soundtrackDto, RuntimeException runtimeException){
-        return "Something went wrong please try again after some time";
+    public CompletableFuture<String> fallbackMethodUpload(SoundtrackDto soundtrackDto, MultipartFile multipartFile, RuntimeException runtimeException){
+        return CompletableFuture.supplyAsync(() -> "Too many upload requests are happening, we are sorry for this, please try again in some minutes.");
+    }
+
+    public CompletableFuture<String> fallbackMethodDownload(String fileName, RuntimeException runtimeException){
+        return CompletableFuture.supplyAsync(() -> "Too many download requests are happening, we are sorry for this, please try again in some minutes.");
     }
 }
