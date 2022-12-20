@@ -1,4 +1,4 @@
-package com.music.microservices.apigateway;
+package com.music.microservices.soundtrackservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,10 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @EnableDiscoveryClient
 @PropertySource("classpath:application.properties")
-public class ApiGatewayApplication {
+public class SoundTrackServiceApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(ApiGatewayApplication.class, args);
+        SpringApplication.run(SoundTrackServiceApplication.class, args);
     }
+
 }

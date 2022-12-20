@@ -30,7 +30,7 @@ public class SecurityConfig{
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername(username)
                 .password(passwordEncoder().encode(password))
-                .roles("USER")
+                .roles("ADMIN")
                 .build());
         return manager;
     }

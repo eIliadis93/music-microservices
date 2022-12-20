@@ -18,12 +18,14 @@
         <module>soundtrack-service</module>
         <module>discovery-server</module>
         <module>api-gateway</module>
+        <module>notification-service</module>
+        <module>user-service</module>
     </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud.version>2022.0.0-RC2</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -53,7 +55,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
