@@ -16,10 +16,11 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(length = 100)
     private String userName;
     private String password;
+    private String role;
+    private String token;
     @OneToMany(cascade = CascadeType.ALL)
     @Nullable
     private List<Song> songsList;

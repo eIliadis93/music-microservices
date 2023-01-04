@@ -15,36 +15,36 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping(value ="/{id}/createSongList")
-    public ResponseEntity<String> createSongList(@RequestBody SongRequest songRequest, @PathVariable Long id){
-        userService.createSongList(songRequest, id);
+    @PostMapping(value ="/{username}/createSongList")
+    public ResponseEntity<String> createSongList(@RequestBody SongRequest songRequest, @PathVariable String username){
+        userService.createSongList(songRequest, username);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(songRequest.toString());
     }
 
-    @DeleteMapping(value ="/{id}/deleteSongList")
-    public ResponseEntity<String> deleteSongList(@RequestBody SongRequest songRequest, @PathVariable Long id){
-        userService.deleteSongList(songRequest, id);
+    @DeleteMapping(value ="/{username}/deleteSongList")
+    public ResponseEntity<String> deleteSongList(@RequestBody SongRequest songRequest, @PathVariable String username){
+        userService.deleteSongList(songRequest, username);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(songRequest.toString());
     }
 
     @PostMapping(value="/register")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        userService.createUser(user);
+    public ResponseEntity<String> createUser(@RequestBody User user){
+        String result = userService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(user);
+                .body(result);
     }
 
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam Long id){
-        userService.updateUser(user,id);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(user);
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login(@RequestBody User user){
+        String token = userService.login(user);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(token);
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestParam Long id){
-        userService.deleteUser(id);
+    public void deleteUser(@RequestParam String username){
+        userService.deleteUser(username);
     }
 }
