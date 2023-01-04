@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final UserService userService;
@@ -30,17 +31,17 @@ public class UserController {
     }
 
     @PostMapping(value="/register")
-    public ResponseEntity<String> createUser(@RequestBody User user){
-        String result = userService.register(user);
+    public ResponseEntity<User> register(@RequestBody User user) throws Exception {
+            userService.register(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(result);
+                .body(user);
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody User user){
-        String token = userService.login(user);
+    public ResponseEntity<User> login(@RequestBody User user) throws Exception {
+             userService.login(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(token);
+                .body(user);
     }
 
     @DeleteMapping

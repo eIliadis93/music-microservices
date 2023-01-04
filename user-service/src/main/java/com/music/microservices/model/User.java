@@ -18,6 +18,7 @@ public class User {
     @Id
     @Column(length = 100)
     private String userName;
+    private String name;
     private String password;
     private String role;
     private String token;

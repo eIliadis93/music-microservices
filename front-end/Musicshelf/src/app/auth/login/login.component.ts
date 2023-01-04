@@ -1,3 +1,5 @@
+import { AuthorizationService } from './../../service/authorization.service';
+import { User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,9 +13,11 @@ export class LoginComponent implements OnInit {
   password : string = '';
   role : string = '';
 
+  user : User = new User();
+
   roles : string[];
 
-  constructor() {
+  constructor(private authService: AuthorizationService) {
     this.roles = [
       'Admin',
       'User'
@@ -24,6 +28,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.username + " " + this.password + " " + this.role);
+    this.user.username = this.username;
+    this.user.password = this.password;
+    this.user.role = this.role;
     }
 }

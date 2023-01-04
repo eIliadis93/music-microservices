@@ -82,19 +82,18 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public String register(User user) {
+    public User register(User user) throws Exception {
+
         //Check if there is a user with the same username
-        if(checkUsername(user)){
+        if(!checkUsername(user)){
             
             log.info("Creating the user.");
             
             user.setToken(generateToken());
-            userRepository.save(user);
-
-            return "User registration completed.";
+           return userRepository.save(user);
         }
         else{
-            return "This username already exist, please try another.";
+            throw new Exception("This user name already exist");
         }
     }
 
@@ -107,17 +106,23 @@ public class UserService {
     private boolean checkUsername(User user) {
         User exist = userRepository.findById(user.getUserName()).orElse(null);
 
-        if(exist == null)
-            return false;
-        return true;
+        return exist != null;
     }
 
-    public String login(User user) {
+    public User login(User user) throws Exception {
         User existingUser = userRepository.findById(user.getUserName()).orElse(null);
-
         if(existingUser == null){
-            return "User is not present.";
+            throw new Exception("User with this username does not exist.");
         }
-        else return existingUser.getToken();
+
+        if(existingUser.getUserName().equals(user.getUserName())
+                && existingUser.getPassword().equals(user.getPassword())
+                && existingUser.getRole().equals(user.getRole())
+        ){
+            existingUser.setPassword("");
+            return existingUser;
+        }
+        else throw new Exception("Username, password or role was wrong, please try again.");
+
     }
 }
