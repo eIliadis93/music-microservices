@@ -1,6 +1,5 @@
 package com.music.microservices.controller;
 
-import com.music.microservices.dto.SongRequest;
 import com.music.microservices.model.User;
 import com.music.microservices.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
-    @PostMapping(value ="/{username}/createSongList")
-    public ResponseEntity<String> createSongList(@RequestBody SongRequest songRequest, @PathVariable String username){
-        userService.createSongList(songRequest, username);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(songRequest.toString());
-    }
-
-    @DeleteMapping(value ="/{username}/deleteSongList")
-    public ResponseEntity<String> deleteSongList(@RequestBody SongRequest songRequest, @PathVariable String username){
-        userService.deleteSongList(songRequest, username);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(songRequest.toString());
-    }
 
     @PostMapping(value="/register")
     public ResponseEntity<User> register(@RequestBody User user) throws Exception {

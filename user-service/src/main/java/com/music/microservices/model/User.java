@@ -22,7 +22,4 @@ public class User {
     private String password;
     private String role;
     private String token;
-    @OneToMany(cascade = CascadeType.ALL)
-    @Nullable
-    private List<Song> songsList;
 }
