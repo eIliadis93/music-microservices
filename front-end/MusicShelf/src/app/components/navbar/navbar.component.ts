@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JwksValidationHandler } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from 'src/app/sso-config';
 

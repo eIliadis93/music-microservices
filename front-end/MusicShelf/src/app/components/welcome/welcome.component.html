@@ -1,1 +1,7 @@
-<p>welcome works!</p>
+<div class="container">
+    <div class="p-5 mt-3 bg-light rounded">
+        <h1>Welcome to Music Shelf</h1>
+        <p class="lead" *ngIf="!token">Please log in to continue.</p>
+        <p class="lead" *ngIf="token">enjoy your sound at Music Shelf</p>
+    </div>
+</div>

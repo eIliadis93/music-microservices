@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  name: string = "";
+  userClaims: any = this.oauthService.getIdentityClaims();
+
+  constructor(private oauthService: OAuthService) { }
 
   ngOnInit(): void {
   }
 
+  get token(){
+    let claims: any = this.oauthService.getIdentityClaims();
+    return claims ? claims:null;
+  }
 }

@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  keycloak: {
+    issuer: "http://localhost:8181/realms/music-microservices-realm", 
+    redirectUri: "http://localhost:4200/",
+    clientId: "angular-music",
+    scope: "openid profile email offline_access"
+  }
 };
 
 /*
