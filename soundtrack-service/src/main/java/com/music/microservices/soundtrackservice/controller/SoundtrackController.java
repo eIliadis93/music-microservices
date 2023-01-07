@@ -49,8 +49,8 @@ public class SoundtrackController {
         return ResponseEntity.ok().body(soundtrackService.finalAllSoundtracks());
     }
 
-    @GetMapping("findByName")
-    public ResponseEntity<Soundtrack> getSongByName(@RequestParam String name) {
+    @GetMapping("findByName/{name}")
+    public ResponseEntity<Soundtrack> getSongByName(@PathVariable String name) {
         return ResponseEntity.ok().body(soundtrackService.findSongByName(name));
     }
 
