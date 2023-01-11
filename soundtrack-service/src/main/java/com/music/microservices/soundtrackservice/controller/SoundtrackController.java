@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/api/soundtrack")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:4200")
 public class SoundtrackController {
 
     private final SoundtrackService soundtrackService;
@@ -46,6 +47,7 @@ public class SoundtrackController {
 
     @GetMapping("/allSongs")
     public ResponseEntity<List<Soundtrack>> getAllSongs() {
+        HttpHeaders header = new HttpHeaders();
         return ResponseEntity.ok().body(soundtrackService.finalAllSoundtracks());
     }
 
