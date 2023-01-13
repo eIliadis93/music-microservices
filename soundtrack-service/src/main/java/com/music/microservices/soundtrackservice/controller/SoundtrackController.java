@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/api/soundtrack")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class SoundtrackController {
 
     private final SoundtrackService soundtrackService;
