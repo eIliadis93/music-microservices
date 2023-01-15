@@ -5,12 +5,16 @@ import com.music.microservices.soundtrackservice.model.Soundtrack;
 import com.music.microservices.soundtrackservice.service.SoundtrackService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -43,6 +47,22 @@ public class SoundtrackController {
                 "attachment; filename=" + fileName.replace(" ", "_"));
         header.setContentLength(content.length);
         return new HttpEntity<byte[]>(content, header);
+    }
+
+    @GetMapping(value = "/stream/{fileName}")
+    public ResponseEntity<byte[]> playSong(@PathVariable String fileName, HttpServletResponse response) {
+        try {
+            Soundtrack soundtrack = soundtrackService.findSongByName(fileName);
+            Path path = Paths.get(soundtrack.getFilePath());
+            response.setContentType("audio/mp3");
+            response.setHeader("Content-Disposition", "inline; filename=\"" + soundtrack.getName() + "\"");
+            response.setContentLength((int) Files.size(path));
+            Files.copy(path, response.getOutputStream());
+            response.flushBuffer();
+
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     @GetMapping("/allSongs")
