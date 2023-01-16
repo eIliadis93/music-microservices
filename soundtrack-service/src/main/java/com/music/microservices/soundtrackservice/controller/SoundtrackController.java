@@ -27,11 +27,11 @@ public class SoundtrackController {
     private final SoundtrackService soundtrackService;
 
 
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = {"*/*"})
     @CircuitBreaker(name = "soundtrack", fallbackMethod = "fallbackMethodUpload")
     @Retry(name = "soundtrack")
-    public ResponseEntity<?> upload(@RequestPart("soundtrackDto") SoundtrackDto soundtrackDto, @RequestPart("file") MultipartFile multipartFile) throws IOException {
-        String uploadSong = soundtrackService.uploadSoundtrack(multipartFile, soundtrackDto);
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
+        String uploadSong = soundtrackService.uploadSoundtrack(file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadSong);
     }

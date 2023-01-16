@@ -1,6 +1,5 @@
 package com.music.microservices.soundtrackservice.service;
 
-import com.music.microservices.soundtrackservice.dto.SoundtrackDto;
 import com.music.microservices.soundtrackservice.event.SoundtrackFileEvent;
 import com.music.microservices.soundtrackservice.model.Soundtrack;
 import com.music.microservices.soundtrackservice.repository.SoundtrackRepository;
@@ -8,7 +7,6 @@ import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpInputMessage;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +26,7 @@ public class SoundtrackService {
     private final Tracer tracer;
     private final KafkaTemplate<String, SoundtrackFileEvent> kafkaTemplate;
 
-    public String uploadSoundtrack(MultipartFile multipartFile, SoundtrackDto soundtrackDto) throws IOException {
+    public String uploadSoundtrack(MultipartFile multipartFile) throws IOException {
 
        Span soundtrackServiceLookup = tracer.nextSpan().name("SoundtrackServiceLookup");
 
@@ -44,8 +42,6 @@ public class SoundtrackService {
                        .name(multipartFile.getOriginalFilename())
                        .type(multipartFile.getContentType())
                        .filePath(filePath)
-                       .artist(soundtrackDto.getArtist())
-                       .album(soundtrackDto.getAlbum())
                        .build();
                soundtrackRepository.insert(soundtrack);
                kafkaTemplate.send("notificationTopic", new SoundtrackFileEvent(soundtrack.getName()));
